@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メルシャ・タイムズ</title>
+<script>
+(function(){
+  if(sessionStorage.getItem('mt_lang_set')) return;
+  sessionStorage.setItem('mt_lang_set','1');
+  var l = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  var map = {ko:'index.html', ja:'index_ja.html', 'zh-tw':'index_tw.html', zh:'index_tw.html'};
+  var target = map[l] || map[l.split('-')[0]] || 'index_en.html';
+  if(target !== 'index_ja.html') location.replace(target);
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1814;
+  --paper: #f5f0e8;
+  --paper2: #ede8de;
+  --rule: #c8c0b0;
+  --rule-heavy: #8a8070;
+  --accent: #c0392b;
+  --dark-bg: #141210;
+  --ad-bg: #0e1c2e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* ── 헤더 ── */
+.site-header { background: var(--dark-bg); border-bottom: 2px solid var(--rule-heavy); }
+.header-top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 24px; border-bottom: 0.5px solid #333;
+  font-size: 11px; color: #888;
+}
+.live-badge {
+  background: var(--accent); color: #fff; font-size: 10px; font-weight: 700;
+  padding: 1px 6px; border-radius: 2px; letter-spacing: 0.05em;
+  animation: blink 1.4s step-end infinite;
+}
+@keyframes blink { 50% { opacity: 0.5; } }
+.masthead { text-align: center; padding: 16px 24px 10px; border-bottom: 0.5px solid #2a2a2a; }
+.masthead h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 52px); font-weight: 900;
+  color: #f0ead8; letter-spacing: -0.01em; line-height: 1;
+}
+.masthead .tagline { font-size: 10px; color: #666; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
+.site-nav {
+  display: flex; justify-content: center; padding: 0 24px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.site-nav::-webkit-scrollbar { display: none; }
+.site-nav a {
+  color: #aaa; text-decoration: none; font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 8px 14px;
+  border-right: 0.5px solid #2a2a2a; white-space: nowrap; transition: color 0.2s;
+}
+.site-nav a:first-child { border-left: 0.5px solid #2a2a2a; }
+.site-nav a:hover { color: #f0ead8; }
+
+/* ── 언어 선택 ── */
+.header-right { display: flex; align-items: center; gap: 0; }
+.lang-wrap { display: inline-flex; align-items: center; }
+.lang-select {
+  background: rgba(255,255,255,0.08); border: 1px solid #333;
+  color: #ccc; font-size: 11px; padding: 2px 6px;
+  border-radius: 3px; cursor: pointer; outline: none;
+}
+.lang-select:hover { border-color: #555; color: #fff; }
+.lang-select option { background: #1a1814; color: #ccc; }
+
+/* ── 티커 ── */
+.ticker-bar { background: #0a1520; border-bottom: 1px solid #1e3a4a; padding: 5px 0; overflow: hidden; white-space: nowrap; }
+.ticker-inner { display: inline-flex; gap: 32px; animation: ticker 30s linear infinite; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-item { font-size: 11px; color: #c8dde8; display: flex; gap: 6px; align-items: center; }
+.ticker-label { color: #4a8ca0; font-weight: 700; font-size: 10px; }
+.tick-up { color: #27ae60; }
+.tick-dn { color: #e74c3c; }
+
+/* ── 콘텐츠 래퍼 ── */
+.content-wrap { max-width: 1200px; margin: 0 auto; }
+
+/* ── 히어로 존 ── */
+.hero-zone {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-main {
+  padding: 20px 20px 20px 24px;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+}
+.hero-img-wrap {
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  overflow: hidden; border-radius: 2px; margin-bottom: 14px; flex-shrink: 0;
+}
+.hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-overlay {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(10,8,6,0.92) 0%, rgba(10,8,6,0.4) 60%, transparent 100%);
+  padding: 20px 18px 16px;
+}
+.kicker-badge {
+  background: var(--accent); color: #fff; font-size: 10px; font-weight: 700;
+  padding: 2px 8px; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px;
+}
+.hero-headline {
+  font-family: 'Playfair Display', 'Noto Serif JP', serif;
+  font-size: clamp(20px, 2.5vw, 32px); font-weight: 700;
+  color: #f0ead8; line-height: 1.25;
+}
+
+/* 기사 본문: 광고 높이만큼 flex로 채움 */
+.hero-body-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 3px solid var(--rule);
+  padding-left: 14px;
+}
+.hero-body-lead {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--ink); line-height: 1.7; margin-bottom: 10px;
+}
+.hero-body-text {
+  font-size: 13px; color: #555; line-height: 1.8; margin-bottom: 10px;
+}
+.hero-body-quote {
+  border-left: 2px solid var(--accent);
+  padding: 6px 12px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 13px; font-style: italic; color: #8a6a5a;
+  margin-bottom: 10px;
+}
+.hero-body-text2 {
+  font-size: 12px; color: #777; line-height: 1.8;
+}
+.read-more { color: var(--accent); font-weight: 500; text-decoration: none; }
+
+/* ── 광고 사이드 ── */
+.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; }
+.ad-img-wrap { flex: 1; overflow: hidden; position: relative; min-height: 260px; }
+.ad-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ad-content { padding: 14px 16px 16px; flex-shrink: 0; }
+.ad-brand { font-size: 10px; color: #4a8ca0; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.ad-headline { font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 700; color: #e8f4d4; line-height: 1.4; margin-bottom: 4px; }
+.ad-sub { font-size: 11px; color: #7ab3d4; margin-bottom: 12px; }
+.ad-cta {
+  display: block; background: #2e86ab; color: #fff;
+  text-align: center; padding: 9px 0; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.05em; border-radius: 2px; cursor: pointer;
+  text-decoration: none; transition: background 0.2s;
+}
+.ad-cta:hover { background: #247699; }
+
+/* ── 사이드 기사 스트립 (PC only, 아이콘) ── */
+.side-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--rule);
+}
+.strip-item {
+  padding: 14px 18px; border-right: 1px solid var(--rule);
+  display: flex; gap: 14px; align-items: center;
+  cursor: pointer; transition: background 0.15s;
+}
+.strip-item:last-child { border-right: none; }
+.strip-item:hover { background: var(--paper2); }
+.strip-icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 22px;
+}
+.icon-market { background: #fef3f2; color: var(--accent); }
+.icon-social { background: #f0f4ff; color: #3b5bdb; }
+.icon-opinion { background: #f3faf3; color: #2d8a4e; }
+.strip-cat { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+.cat-market { color: var(--accent); }
+.cat-social { color: #3b5bdb; }
+.cat-opinion { color: #2d8a4e; }
+.strip-title { font-family: 'Noto Serif JP', serif; font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 2px; }
+.strip-sub { font-size: 11px; color: #888; }
+
+/* ── 피처 배너 ── */
+.feature-band {
+  background: #ede8de; border-bottom: 1px solid var(--rule);
+  display: grid; grid-template-columns: minmax(420px, 420px) 1fr;
+  overflow: hidden; cursor: pointer; transition: background 0.15s;
+  align-items: stretch;
+}
+.feature-band:hover { background: #e5dfd4; }
+.feature-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; min-height: 200px; }
+.feature-body { padding: 24px 28px; display: flex; flex-direction: column; justify-content: center; }
+.feature-eyebrow { font-size: 10px; font-weight: 700; color: #8b5e3c; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.feature-title {
+  font-family: 'Playfair Display', 'Noto Serif JP', serif;
+  font-size: clamp(16px, 2vw, 24px); font-weight: 700;
+  color: var(--ink); line-height: 1.3; margin-bottom: 10px;
+}
+.feature-desc { font-size: 13px; color: #6a5a48; line-height: 1.7; }
+.feature-more { display: inline-block; margin-top: 12px; font-size: 12px; font-weight: 700; color: #8b5e3c; text-decoration: none; }
+
+/* ── 기사 3단 그리드 ── */
+.article-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--rule);
+}
+.article-card {
+  padding: 16px; border-right: 1px solid var(--rule);
+  cursor: pointer; transition: background 0.15s;
+}
+.article-card:last-child { border-right: none; }
+.article-card:hover { background: var(--paper2); }
+.article-thumb {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center center;
+  border-radius: 2px; margin-bottom: 10px; display: block;
+}
+.article-cat { font-size: 10px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.article-title { font-family: 'Noto Serif JP', serif; font-size: 14px; font-weight: 700; line-height: 1.4; color: var(--ink); margin-bottom: 6px; }
+.article-snippet { font-size: 12px; color: #777; line-height: 1.6; }
+
+/* ── 푸터 ── */
+.breaking-bar {
+  background: #1a0a08;
+  border-bottom: 1px solid #3a1a14;
+  padding: 5px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.breaking-inner {
+  display: inline-flex;
+  gap: 48px;
+  animation: ticker 40s linear infinite;
+}
+.breaking-label {
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 8px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  align-self: center;
+  animation: blink 1.4s step-end infinite;
+}
+.breaking-text {
+  font-size: 11px;
+  color: #f0c0b0;
+  white-space: nowrap;
+  align-self: center;
+}
+/* ── 로얄 레지던스 광고 ── */
+.royal-ad {
+  background: #0e1a0a;
+  border-top: 1px solid #1e3a14;
+  overflow: hidden;
+}
+.royal-ad-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+.royal-ad-body {
+  padding: 12px 14px 14px;
+  background: #111c0d;
+}
+.royal-ad-label {
+  font-size: 9px;
+  color: #5a8a40;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.royal-ad-copy {
+  font-size: 12px;
+  color: #d4e8c0;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.royal-ad-sub {
+  font-size: 10px;
+  color: #7aaa5a;
+  margin-bottom: 10px;
+}
+.royal-ad-cta {
+  display: block;
+  background: #c8a020;
+  color: #1a1200;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.royal-ad-cta:hover { background: #e0b828; }
+
+.site-footer {
+  background: var(--dark-bg); padding: 16px 24px; text-align: center;
+  font-size: 11px; color: #555; border-top: 1px solid #222;
+}
+
+/* ══ 모바일 ══ */
+@media (max-width: 767px) {
+  .header-top .date { display: none; }
+  .masthead { padding: 12px 14px 8px; }
+  .site-nav { padding: 0 14px; }
+  .site-nav a { padding: 7px 10px; font-size: 10px; }
+
+  .hero-zone { display: block; }
+  .hero-main { padding: 0; border-right: none; }
+  .hero-img-wrap { aspect-ratio: 16/9; border-radius: 0; margin-bottom: 0; }
+  .hero-overlay { padding: 14px 14px 12px; }
+  .hero-headline { font-size: 20px; }
+  .hero-body-wrap {
+    border-left: none; border-top: 3px solid var(--rule);
+    padding: 12px 14px 14px; flex: unset;
+  }
+  .hero-body-lead { font-size: 13px; }
+  .hero-body-text, .hero-body-text2 { display: none; }
+  .hero-body-quote { display: none; }
+
+  /* 서브지면 모바일 표시 */
+  .side-strip {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--rule);
+  }
+  .strip-item {
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 14px;
+  }
+  .strip-item:last-child { border-bottom: none; }
+  .strip-title { font-size: 14px; }
+
+  /* 광고: 텍스트 표시, 버튼 유지 */
+  .hero-ad { border-top: 1px solid #1e3a4a; }
+  .ad-img-wrap { min-height: unset; aspect-ratio: 4/3; flex: unset; }
+  .ad-content { padding: 10px 14px; }
+  .royal-ad-body { padding: 10px 14px; }
+
+  /* 피처 세로 스택 */
+  .feature-band { grid-template-columns: 1fr; }
+  .feature-img { aspect-ratio: 16/7; }
+  .feature-body { padding: 14px 14px 16px; }
+  .feature-title { font-size: 17px; word-break: keep-all; }
+
+  /* 기사 1단 - 모두 단일 열 */
+  .article-grid { grid-template-columns: 1fr; }
+  .article-card { padding: 12px; border-right: none; border-bottom: 1px solid var(--rule); }
+  .article-card:nth-child(2) { border-right: none; }
+  .article-card:nth-child(3) {
+    grid-column: unset; border-right: none; border-top: none;
+    display: block;
+  }
+  .article-card:nth-child(3) .article-thumb {
+    width: 100%; height: auto; aspect-ratio: 4/3; margin-bottom: 10px;
+  }
+
+  /* 메인 헤드라인 줄바꿈 자연스럽게 */
+  .hero-headline { font-size: 20px; word-break: keep-all; }
+}
+
+/* ── 성형외과 팝업 (리디자인) ── */
+.clinic-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92); z-index: 1100;
+  align-items: center; justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.clinic-overlay.open { display: flex; }
+.clinic-box {
+  position: relative;
+  background: linear-gradient(165deg, #1a1a1a 0%, #0d0d0d 100%);
+  width: min(420px, 94vw);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 
+    0 40px 100px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(255,255,255,0.05) inset;
+}
+.clinic-close {
+  position: absolute; top: 16px; right: 18px;
+  background: rgba(255,255,255,0.08); border: none;
+  color: rgba(255,255,255,0.6);
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 16px; cursor: pointer; z-index: 10;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.clinic-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.clinic-inner { padding: 40px 28px 24px; text-align: center; }
+.clinic-brand {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(200,170,140,0.7); margin-bottom: 12px;
+}
+.clinic-title {
+  font-family: 'Noto Serif JP', serif;
+  color: #fff; font-size: 24px; font-weight: 400;
+  line-height: 1.5; margin-bottom: 8px; word-break: keep-all;
+}
+.clinic-title strong { font-weight: 700; color: #d4a574; }
+.clinic-subtitle {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  margin-bottom: 28px; letter-spacing: 0.02em;
+}
+
+/* 비밀번호 입력 UI */
+.clinic-pin-section { margin-bottom: 24px; }
+.clinic-pin-label {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.clinic-pin-display {
+  display: flex; justify-content: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.clinic-pin-dot {
+  width: 52px; height: 64px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 28px; font-weight: 300; color: #fff;
+  transition: all 0.2s ease;
+}
+.clinic-pin-dot.filled {
+  background: rgba(212,165,116,0.1);
+  border-color: rgba(212,165,116,0.4);
+  color: #d4a574;
+}
+.clinic-pin-dot.active {
+  border-color: rgba(212,165,116,0.6);
+  box-shadow: 0 0 20px rgba(212,165,116,0.15);
+}
+
+/* 숫자 키패드 */
+.clinic-keypad {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; max-width: 240px; margin: 0 auto;
+}
+.clinic-key {
+  aspect-ratio: 1.4; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; color: #fff;
+  font-size: 20px; font-weight: 400; cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.clinic-key:hover { background: rgba(255,255,255,0.08); }
+.clinic-key:active { 
+  background: rgba(212,165,116,0.2);
+  border-color: rgba(212,165,116,0.4);
+  transform: scale(0.96);
+}
+.clinic-key.empty { visibility: hidden; }
+.clinic-key.delete {
+  font-size: 14px; color: rgba(255,255,255,0.5);
+}
+.clinic-key.delete:hover { color: #e74c3c; }
+
+.clinic-cta {
+  display: block; width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #d4a574 0%, #c49464 100%);
+  color: #0d0d0d; font-size: 15px;
+  font-weight: 700; border: none; border-radius: 10px; cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.clinic-cta:hover { 
+  background: linear-gradient(135deg, #e0b584 0%, #d4a574 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(212,165,116,0.25);
+}
+.clinic-cta:disabled {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.clinic-char {
+  position: absolute; bottom: 0; right: -20px;
+  width: 180px; pointer-events: none;
+  opacity: 0.9;
+}
+.clinic-char img { width: 100%; display: block; }
+
+/* 감사합니다 오버레이 */
+.clinic-thank {
+  display: none; position: absolute; inset: 0;
+  background: rgba(13,13,13,0.95);
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.clinic-thank.show { display: flex; }
+.clinic-thank-box {
+  text-align: center; padding: 40px 32px;
+}
+.clinic-thank-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px;
+  background: linear-gradient(135deg, #d4a574 0%, #c49464 100%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #0d0d0d;
+}
+.clinic-thank-box p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 22px; font-weight: 400; color: #fff;
+  line-height: 1.5; margin-bottom: 24px;
+}
+.clinic-thank-box button {
+  background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 32px; font-size: 14px; font-weight: 500;
+  border-radius: 8px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.clinic-thank-box button:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* 0401 서비스 컷 - 전체 화면 */
+.clinic-after {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.95); 
+  align-items: center; justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+}
+.clinic-after.show { display: flex; }
+.clinic-after img { 
+  max-width: 100%; 
+  max-height: 90vh; 
+  width: auto;
+  height: auto;
+  object-fit: contain; 
+  border-radius: 8px;
+}
+.clinic-after .clinic-close {
+  position: fixed; top: 20px; right: 20px;
+  z-index: 1201;
+}
+
+@media (max-width: 480px) {
+  .clinic-box { border-radius: 12px; }
+  .clinic-inner { padding: 32px 20px 20px; }
+  .clinic-title { font-size: 20px; }
+  .clinic-pin-dot { width: 44px; height: 56px; font-size: 24px; }
+  .clinic-keypad { max-width: 200px; }
+  .clinic-key { font-size: 18px; }
+  .clinic-char { width: 140px; right: -15px; }
+}
+
+/* ── 분양광고 팝업 (로얄 레지던스) ── */
+.royal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92); z-index: 1100;
+  align-items: center; justify-content: center;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.royal-overlay.open { display: flex; }
+.royal-box {
+  position: relative;
+  background: linear-gradient(165deg, #0f1a0d 0%, #0a120a 100%);
+  width: min(420px, 94vw);
+  border: 1px solid rgba(200,220,180,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 
+    0 40px 100px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(200,220,180,0.05) inset;
+}
+.royal-close {
+  position: absolute; top: 16px; right: 18px;
+  background: rgba(255,255,255,0.08); border: none;
+  color: rgba(255,255,255,0.6);
+  width: 32px; height: 32px; border-radius: 50%;
+  font-size: 16px; cursor: pointer; z-index: 10;
+  transition: all 0.2s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.royal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+.royal-inner { padding: 40px 28px 28px; text-align: center; }
+.royal-brand {
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(200,160,32,0.8); margin-bottom: 12px;
+}
+.royal-title {
+  font-family: 'Noto Serif JP', serif;
+  color: #fff; font-size: 22px; font-weight: 400;
+  line-height: 1.5; margin-bottom: 8px; word-break: keep-all;
+}
+.royal-title strong { font-weight: 700; color: #c8a020; }
+.royal-subtitle {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  margin-bottom: 28px; letter-spacing: 0.02em;
+}
+
+/* 비밀번호 입력 UI - 분양 */
+.royal-pin-section { margin-bottom: 24px; }
+.royal-pin-label {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.royal-pin-display {
+  display: flex; justify-content: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.royal-pin-dot {
+  width: 52px; height: 64px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 28px; font-weight: 300; color: #fff;
+  transition: all 0.2s ease;
+}
+.royal-pin-dot.filled {
+  background: rgba(200,160,32,0.1);
+  border-color: rgba(200,160,32,0.4);
+  color: #c8a020;
+}
+.royal-pin-dot.active {
+  border-color: rgba(200,160,32,0.6);
+  box-shadow: 0 0 20px rgba(200,160,32,0.15);
+}
+
+/* 숫자 키패드 - 분양 */
+.royal-keypad {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; max-width: 240px; margin: 0 auto;
+}
+.royal-key {
+  aspect-ratio: 1.4; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px; color: #fff;
+  font-size: 20px; font-weight: 400; cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex; align-items: center; justify-content: center;
+}
+.royal-key:hover { background: rgba(255,255,255,0.08); }
+.royal-key:active { 
+  background: rgba(200,160,32,0.2);
+  border-color: rgba(200,160,32,0.4);
+  transform: scale(0.96);
+}
+.royal-key.empty { visibility: hidden; }
+.royal-key.delete {
+  font-size: 14px; color: rgba(255,255,255,0.5);
+}
+.royal-key.delete:hover { color: #e74c3c; }
+
+.royal-cta {
+  display: block; width: 100%; padding: 16px;
+  background: linear-gradient(135deg, #c8a020 0%, #a88a18 100%);
+  color: #0a0a0a; font-size: 15px;
+  font-weight: 700; border: none; border-radius: 10px; cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+.royal-cta:hover { 
+  background: linear-gradient(135deg, #d8b030 0%, #c8a020 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(200,160,32,0.25);
+}
+.royal-cta:disabled {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 감사합니다 오버레이 - 분양 */
+.royal-thank {
+  display: none; position: absolute; inset: 0;
+  background: rgba(10,18,10,0.95);
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.royal-thank.show { display: flex; }
+.royal-thank-box {
+  text-align: center; padding: 40px 32px;
+}
+.royal-thank-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px;
+  background: linear-gradient(135deg, #c8a020 0%, #a88a18 100%);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: #0a0a0a;
+}
+.royal-thank-box p {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 22px; font-weight: 400; color: #fff;
+  line-height: 1.5; margin-bottom: 24px;
+}
+.royal-thank-box button {
+  background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 32px; font-size: 14px; font-weight: 500;
+  border-radius: 8px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.royal-thank-box button:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* 쿠폰 코드 화면 - 분양 */
+.royal-coupon {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.95); 
+  align-items: center; justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+}
+.royal-coupon.show { display: flex; }
+.royal-coupon-box {
+  background: linear-gradient(165deg, #1a2a14 0%, #0f1a0d 100%);
+  border: 1px solid rgba(200,160,32,0.3);
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  box-shadow: 0 0 60px rgba(200,160,32,0.15);
+}
+.royal-coupon-icon {
+  font-size: 48px; margin-bottom: 16px;
+}
+.royal-coupon-title {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 20px; color: #fff; margin-bottom: 8px;
+}
+.royal-coupon-sub {
+  font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px;
+}
+.royal-coupon-code {
+  background: rgba(0,0,0,0.4);
+  border: 2px dashed rgba(200,160,32,0.5);
+  border-radius: 10px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+}
+.royal-coupon-code span {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 22px; font-weight: 700;
+  color: #c8a020; letter-spacing: 0.1em;
+}
+.royal-coupon-hint {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  margin-bottom: 24px;
+}
+.royal-coupon-close {
+  background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 32px; font-size: 14px; font-weight: 500;
+  border-radius: 8px; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.royal-coupon-close:hover {
+  background: rgba(255,255,255,0.15);
+}
+.royal-coupon .royal-close {
+  position: fixed; top: 20px; right: 20px;
+  z-index: 1201;
+}
+
+@media (max-width: 480px) {
+  .royal-box { border-radius: 12px; }
+  .royal-inner { padding: 32px 20px 24px; }
+  .royal-title { font-size: 18px; }
+  .royal-pin-dot { width: 44px; height: 56px; font-size: 24px; }
+  .royal-keypad { max-width: 200px; }
+  .royal-key { font-size: 18px; }
+  .royal-coupon-box { padding: 36px 24px; }
+  .royal-coupon-code span { font-size: 18px; }
+}
+
+/* ── 기사 팝업 모달 ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 6, 0.75);
+  z-index: 1000;
+  overflow-y: auto;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  padding: 40px 20px;
+}
+.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+.modal-box {
+  background: var(--paper);
+  max-width: 720px;
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  animation: modalIn 0.22s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.modal-header {
+  background: var(--dark-bg);
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-cat {
+  font-size: 10px; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.modal-close {
+  background: none; border: none; cursor: pointer;
+  color: #888; font-size: 22px; line-height: 1;
+  padding: 0 4px; transition: color 0.15s;
+}
+.modal-close:hover { color: #f0ead8; }
+.modal-img {
+  width: 100%; height: auto; max-height: none; object-fit: contain; display: block;
+}
+.modal-body { padding: 24px 28px 32px; }
+.modal-kicker {
+  font-size: 10px; font-weight: 700; color: var(--accent);
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px;
+}
+.modal-title {
+  font-family: 'Playfair Display', 'Noto Serif JP', serif;
+  font-size: 26px; font-weight: 700; line-height: 1.3;
+  color: var(--ink); margin-bottom: 12px;
+}
+.modal-meta {
+  font-size: 11px; color: #999; padding-bottom: 14px;
+  border-bottom: 1px solid var(--rule); margin-bottom: 18px;
+}
+.modal-lead {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 15px; font-weight: 700; line-height: 1.75;
+  color: var(--ink); margin-bottom: 14px;
+}
+.modal-text {
+  font-size: 13px; color: #444; line-height: 1.9; margin-bottom: 14px;
+}
+.modal-quote {
+  border-left: 3px solid var(--accent);
+  padding: 8px 16px; margin: 16px 0;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 13px; font-style: italic; color: #7a5a48; line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal-box { border-radius: 12px 12px 0 0; max-height: 90vh; overflow-y: auto; }
+  .modal-title { font-size: 20px; }
+  .modal-body { padding: 18px 20px 28px; }
+  .modal-lead { font-size: 14px; line-height: 1.8; }
+  .modal-text { line-height: 1.85; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <span class="date">4月1日 &nbsp;|&nbsp; メルシャ帝国公式機関紙</span>
+    <span class="header-right">
+      <span class="lang-wrap">
+        <select class="lang-select" onchange="if(this.value){sessionStorage.setItem('mt_lang_set','1');location.href=this.value}">
+          <option value="index.html">🇰🇷 한국어</option>
+          <option value="index_en.html">🇺🇸 English</option>
+          <option value="index_ja.html" selected>🇯🇵 日本語</option>
+          <option value="index_tw.html">🇹🇼 繁體中文</option>
+        </select>
+      </span>
+      &nbsp;|&nbsp; 購読 &nbsp;|&nbsp; ログイン
+    </span>
+  </div>
+  <div class="masthead">
+    <h1>Mirsha Times</h1>
+    <p class="tagline">メルシャ帝国随一の信頼、今日も真実だけをお届けします</p>
+  </div>
+  <nav class="site-nav">
+    <a href="#">Social</a><a href="#">Business</a><a href="#">Market</a>
+    <a href="#">ART</a><a href="#">Lifestyle</a><a href="#">Opinion</a>
+  </nav>
+</header>
+
+<div class="ticker-bar">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-label">MIR</span> Mirsha Exchange <span class="tick-dn">▼ 3,215.75 −16.81%</span></div>
+    <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
+    <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
+    <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">MIR</span> Mirsha Exchange <span class="tick-dn">▼ 3,215.75 −16.81%</span></div>
+    <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
+    <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
+    <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+  </div>
+</div>
+
+<div class="breaking-bar">
+  <div class="breaking-inner">
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">イエクスプロー、国内でイレギュラー大量発生により国家非常事態を宣言 — サーシャ・ヴラダ元帥が鎮圧を総指揮</span>
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">メルシャ取引所3,215.75に暴落 — イエクスプロー事態の余波で全銘柄下落</span>
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">ステラ王女、イエクスプロー事態に関する緊急安保会議を招集 — ホワイトファルコン王国が状況を注視</span>
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">イエクスプロー、国内でイレギュラー大量発生により国家非常事態を宣言 — サーシャ・ヴラダ元帥が鎮圧を総指揮</span>
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">メルシャ取引所3,215.75に暴落 — イエクスプロー事態の余波で全銘柄下落</span>
+    <span class="breaking-label">速報</span>
+    <span class="breaking-text">ステラ王女、イエクスプロー事態に関する緊急安保会議を招集 — ホワイトファルコン王国が状況を注視</span>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <section class="hero-zone">
+    <div class="hero-main">
+      <div class="hero-img-wrap" style="cursor:pointer" onclick="openModal('hero')">
+        <img src="images/img_01.jpg" alt="イエクスプロー非常事態">
+        <div class="hero-overlay">
+          <span class="kicker-badge">独占スクープ</span>
+          <h2 class="hero-headline">イエクスプロー、イレギュラー大量発生で国家非常事態を宣言</h2>
+        </div>
+      </div>
+      <div class="hero-body-wrap" style="cursor:pointer" onclick="openModal('hero')">
+        <p class="hero-body-lead">イエクスプロー全域でイレギュラーが大量発生し、国家非常事態が宣言された。サーシャ・ヴラダ元帥は直ちに全軍出動態勢を発令し、自ら指揮を執った。和平関係にあるホワイトファルコン王国も緊張の中、事態を注視している。</p>
+        <p class="hero-body-text">イエクスプローの首都および主要都市でイレギュラーの出現が相次ぎ、現地市民の不安は極限に達している。サーシャ・ヴラダ元帥は全兵力に即時出動命令を下し、イエクスプロー側は外部の支援要請なしに自国の力で事態を収束させる方針だ。ホワイトファルコン王国はこの知らせを受け、直ちにステラ王女主催で緊急安保会議を開き、状況の把握に努めている。</p>
+        <blockquote class="hero-body-quote">「イエクスプローの安定はメルシャの安定に直結しています。状況を綿密に注視しております」 — 第1軍司令部</blockquote>
+        <p class="hero-body-text2">ホワイトファルコン王国はイエクスプローとの関係を考慮しながら慎重に対応策を協議している。支援要請があった場合に備えた内部検討にも着手したと伝えられている。 <a class="read-more" href="#">…続きを読む</a></p>
+      </div>
+    </div>
+
+    <aside class="hero-ad">
+      <div class="ad-img-wrap">
+        <img src="images/img_02.jpg" alt="メルシャ美容外科">
+      </div>
+      <div class="ad-content">
+        <div class="ad-brand">AD · メルシャ美容外科</div>
+        <div class="ad-headline">小さい胸は罪！<br>そのままでいいんですか？</div>
+        <div class="ad-sub">あなたもFカップオーナーに · 今すぐ相談</div>
+        <a class="ad-cta" href="#" onclick="openClinic(); return false;">今すぐ相談する →</a>
+      </div>
+      <div class="royal-ad">
+        <img class="royal-ad-img" src="images/img_03_JA.jpg" alt="アウターシティ ザ・パークヒル">
+        <div class="royal-ad-body">
+          <div class="royal-ad-label">AD 分譲広告</div>
+          <div class="royal-ad-copy">限定分譲 | <strong>プレミアム立地</strong>の完成<br>アウターシティ ザ・パークヒル Royal Residence</div>
+          <div class="royal-ad-sub">新しい暮らしの始まり · 頭金ゼロ · 残金ローン可能</div>
+          <a class="royal-ad-cta" href="#" onclick="openRoyal(); return false;">モデルハウス見学予約 →</a>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- サイド記事ストリップ — アイコン版 -->
+  <section class="side-strip">
+    <div class="strip-item" onclick="openModal('market')">
+      <div class="strip-icon icon-market">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+        </svg>
+      </div>
+      <div>
+        <div class="strip-cat cat-market">Market</div>
+        <div class="strip-title">メルシャ取引所が急落</div>
+        <div class="strip-sub">主要銘柄が一斉に下落</div>
+      </div>
+    </div>
+    <div class="strip-item" onclick="openModal('social')">
+      <div class="strip-icon icon-social">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div>
+        <div class="strip-cat cat-social">Social</div>
+        <div class="strip-title">マグノリア入試要項を発表</div>
+        <div class="strip-sub">メルシャ最高峰の魔法学園が実技選考を強化</div>
+      </div>
+    </div>
+    <div class="strip-item" onclick="openModal('opinion')">
+      <div class="strip-icon icon-opinion">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="strip-cat cat-opinion">Opinion</div>
+        <div class="strip-title">イエクスプロー最前線</div>
+        <div class="strip-sub">凄惨な戦場で兵士にインタビュー</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-band" onclick="openModal('feature')">
+    <img class="feature-img" src="images/img_04_JA.jpg" alt="光の砂漠エッセプ">
+    <div class="feature-body">
+      <div class="feature-eyebrow">ブリンのおすすめ · Lifestyle</div>
+      <h3 class="feature-title">光の砂漠、エッセプ — 公式アンバサダー・ブリンのエッセプ・エッセンス</h3>
+      <p class="feature-desc">砂漠の上のオアシス、エッセプは数多くの観光客が訪れる名所だ。しかし美しい砂漠の下には危険が潜んでいるという事実を、多くの人は知らない。本記事では10年のキャリアを持つエッセプ専門ツアーガイドのノウハウを…</p>
+      <a class="feature-more" href="#">続きを読む →</a>
+    </div>
+  </section>
+
+  <section class="article-grid">
+    <article class="article-card" onclick="openModal('lisa')">
+      <img class="article-thumb" src="images/img_05.jpg" alt="リーシャ ビューティクラス">
+      <div class="article-cat">Lifestyle · ART</div>
+      <h4 class="article-title">エレガンスを極めるスタイリングセミナー</h4>
+      <p class="article-snippet">リーシャのビューティクラスがついにメルシャ市民に公開されます。ファッションとビューティの真髄を詰め込んだ本セミナーは…</p>
+    </article>
+    <article class="article-card" onclick="openModal('reporter')">
+      <img class="article-thumb" src="images/img_06.jpg" alt="ケイとアステの熱愛疑惑">
+      <div class="article-cat">Social · 独占</div>
+      <h4 class="article-title">地球人勇者ケイ、大主教と密会?!</h4>
+      <p class="article-snippet">ケイの熱愛疑惑が世間を騒がせている。相手はセイクリッドのネポス教大主教アステだという…</p>
+    </article>
+    <article class="article-card" onclick="openModal('cardmarket')">
+      <img class="article-thumb" src="images/img_07.jpg" alt="エッセプ再建事業ゲート">
+      <div class="article-cat">Market · Business</div>
+      <h4 class="article-title">エッセプ再建事業スキャンダル</h4>
+      <p class="article-snippet">再建現場を指揮していたのは反乱軍の首領カメスだった?! 衝撃の情報が本紙に独占入手された。</p>
+    </article>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  © Mirsha Times. メルシャ帝国公式機関紙。無断転載および再配布を禁じます。
+</footer>
+
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <span class="modal-cat" id="modal-cat"></span>
+      <button class="modal-close" onclick="closeModal(null, true)">✕</button>
+    </div>
+    <img class="modal-img" id="modal-img" src="" alt="" onerror="this.style.display='none'">
+    <div class="modal-body">
+      <div class="modal-kicker" id="modal-kicker"></div>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="modal-meta" id="modal-meta"></div>
+      <p class="modal-lead" id="modal-lead"></p>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ARTICLES = {
+  hero: {
+    cat: 'Social · 独占スクープ',
+    kicker: '緊急速報',
+    title: 'イエクスプロー、イレギュラー大量発生で国家非常事態を宣言',
+    meta: 'メルシャ・タイムズ特派員 · 4月1日',
+    img: 'images/img_15.jpg',
+    lead: 'イエクスプロー全域でイレギュラーが大量発生し、国家非常事態が宣言された。サーシャ・ヴラダ元帥は直ちに全軍出動態勢を発令し、自ら指揮を執った。近隣諸国も緊張の中、事態を注視している。',
+    body: `<p class="modal-text">イエクスプローの首都を含む主要都市でイレギュラーが同時多発的に出現し、現地市民は極度の恐怖に陥っている。サーシャ・ヴラダ元帥は事態発生直後、イエクスプロー全兵力に即時出動命令を下し、自ら前線指揮所を設置した。元帥は今回のイレギュラーの規模が過去の出現事例とは次元の異なる水準であるとして、非常事態を宣言した。</p>
+    <blockquote class="modal-quote">「イエクスプローの安定はメルシャの安定に直結しています。状況を綿密に注視しております」 — 第1軍司令部</blockquote>
+    <p class="modal-text">しかし現在、イエクスプロー側は事態の収束以前に国家機能が麻痺するほどの打撃を受けたとみられ、正確な被害規模すら把握できていない状況だ。ホワイトファルコン王国はこの知らせを受け、直ちにステラ王女主催で緊急安保会議を開催し状況の把握に努めており、イエクスプローとの関係を考慮しながら慎重に対応策を協議している。支援要請があった場合に備えた内部検討にも着手したと伝えられている。</p>`
+  },
+  market: {
+    cat: 'Market',
+    kicker: '緊急市場動向',
+    title: 'メルシャ取引所が急落 — イエクスプロー非常事態の余波で全銘柄下落',
+    meta: 'メルシャ・タイムズ経済部 · 4月1日',
+    img: 'images/img_08.jpg',
+    lead: 'イエクスプロー国家非常事態のニュースが伝わるや否や、メルシャ取引所は直撃を受け3,215.75で取引を終えた。1日の取引としては過去最大の下落幅を記録した。',
+    body: `<p class="modal-text">イエクスプローはホワイトファルコン王国と和平関係にある隣国であり、両国間の貿易比重が高いことから、今回の非常事態はメルシャ経済に直接的な波及効果をもたらしている。MIR指数は場中一時、前日比18%を超える急落を見せ、主要貿易関連銘柄を中心にパニック売りが集中した。</p>
+    <blockquote class="modal-quote">「イエクスプロー事態が長期化した場合、両国間の貿易に深刻な支障が生じることは避けられません」 — メルシャ投資研究所チーフアナリスト</blockquote>
+    <p class="modal-text">王室経済対策委員会は緊急会議を開き、市場安定化措置を検討中であると発表した。市場の専門家たちは、イエクスプローにおけるイレギュラー鎮圧の進捗次第では変動性がさらに拡大する可能性があると警告している。</p>`
+  },
+  social: {
+    cat: 'Social',
+    kicker: '教育',
+    title: 'マグノリア入試要項を発表 — メルシャ最高峰の魔法学園が実技選考を強化',
+    meta: 'メルシャ・タイムズ社会部 · 4月1日',
+    img: 'images/img_13.jpg',
+    lead: 'マグノリア魔法学園が2026年度の入学選考要項を公式発表した。実技重視の選考改編をめぐり、教育界の内外から期待と懸念の声が交錯している。',
+    body: `<p class="modal-text">マグノリア魔法学園学園長ラプラスは、今回の選考改編の趣旨について「新しい教育トレンドに合わせた実践中心の教育強化」と述べた。ラプラス学園長は、この変化がより質の高い教育環境を提供し、優秀な魔法使いの育成に実質的な助けとなると説明した。</p>
+    <p class="modal-text">しかし一部では、今回の選考強化が純粋な魔法使いの血統をさらに選別しようとする意図ではないかという反発の声も高まっている。実際に最近、マグノリアの匿名掲示板に匿名の告発が掲載され、波紋を呼んでいる。</p>
+    <blockquote class="modal-quote">「マクスウェル教授の魔法使い純血主義思想が学内に広まっている。これは一般人と魔法使いの間の差別を助長する、時代遅れの思想だ」 — 匿名の告発者</blockquote>
+    <p class="modal-text">この告発をめぐり学内の世論は大きく割れており、マグノリア側は公式見解を出していない。今回の入試要項発表が長年の論争に再び火をつける結果となるのか、注目が集まっている。</p>`
+  },
+  opinion: {
+    cat: 'Opinion',
+    kicker: '戦争ルポ',
+    title: 'イエクスプロー最前線 — 凄惨な戦場で兵士にインタビュー',
+    meta: 'メルシャ・タイムズ オピニオン部 · 4月1日',
+    img: 'images/img_14.jpg',
+    lead: '本紙取材陣がイエクスプロー最前線のメフレ村に単独潜入し、凄惨な現場を生々しく伝えてきた。封鎖と混乱が入り乱れる戦場のただ中で、イエクスプロー軍兵士との短いインタビューが実現した。',
+    body: `<p class="modal-text">取材当日、メフレ村はイエクスプロー軍によって統制されている状況だった。しかし兵力不足のため完全な封鎖には至っておらず、実際に民間人の出入りが行われている場面も容易に目撃できた。現場ではイレギュラーに対する掃討作戦が真っ最中だった。</p>
+    <p class="modal-text">作戦中、取材陣は幸運にも現場に投入された兵士一人と束の間の接触に成功した。</p>
+    <p class="modal-text"><strong>取材陣：</strong> 現在メフレ村の状況はどうなっていますか？<br>
+    <strong>エンバー特任下士：</strong> え？あ？い…いや、ここに入ってきちゃダメですよ、どうやって入ったんですか？<br>
+    <strong>取材陣：</strong> 一言だけお願いします。現在の状況はどうなっているのですか？<br>
+    <strong>エンバー特任下士：</strong> とりあえずメフレは…うーん、私もまだ把握中です。緊急救助要請で来たものですから。<br>
+    <strong>取材陣：</strong> では事態は現在統制されていないということですか？<br>
+    <strong>エンバー特任下士：</strong> 現在の状況はイエクスプロー軍部が確実に統制中です。イレギュラーと接触した方々は隔離措置が取られ、都市も封鎖されています。<br>
+    <strong>取材陣：</strong> しかし我々がこうして入れたこと自体、統制がきちんと行われているとは言い難いのでは？<br>
+    <strong>エンバー特任下士：</strong> あっ、そういえば…！クリスティーナ中尉に怒られる… まだ統制が始まったばかりなんです。私は忙しいのでこれで—<br>
+    <strong>取材陣：</strong> 待ってください！</p>
+    <blockquote class="modal-quote">「まだ統制が始まったばかりなんです」 — エンバー特任下士</blockquote>
+    <p class="modal-text">息つく間もない現場で行われた短いインタビューを通じて確認できたのは、緊迫した状況の中でもイエクスプロー軍が必死に事態を収束させようとしているという事実くらいだった。しかし不安感が消えない現場の雰囲気の中で、こうした姿が住民に実質的な安心感をもたらすまでには、まだ相当な時間が必要であろうと思われる。</p>`
+  },
+  feature: {
+    cat: 'Lifestyle · ブリンのおすすめ',
+    kicker: '旅行ガイド',
+    title: '光の砂漠、エッセプ — 公式アンバサダー・ブリンのエッセプ・エッセンス',
+    meta: 'メルシャ・タイムズ ライフスタイル部 · 4月1日',
+    img: 'images/img_09_JA.jpg',
+    lead: '砂漠の上のオアシス、エッセプは数多くの観光客が訪れる観光名所だ。しかし美しい砂漠の下には危険が潜んでいる。',
+    body: `<p class="modal-text">10年のキャリアを持つエッセプ専門ツアーガイドのノウハウを総まとめした本特集記事では、エッセプを安全かつ楽しく旅する方法を詳しく紹介する。公式アンバサダーのブリンもエッセプの隠れた魅力を自ら案内してくれた。</p>
+    <blockquote class="modal-quote">「エッセプは単なる砂漠じゃないんです。光と砂が織りなす魔法のような空間なんですよ」 — ブリン</blockquote>
+    <p class="modal-text">何より重要なのは現地ガイドを伴った旅だ。一人で砂漠の奥深くに入るのは非常に危険であり、公式ツアールートを外れないよう注意すべきだ。</p>`
+  },
+  lisa: {
+    cat: 'Lifestyle · ART',
+    kicker: 'スタイリング',
+    title: 'エレガンスを極めるスタイリングセミナー',
+    meta: 'メルシャ・タイムズ ライフスタイル部 · 4月1日',
+    img: 'images/img_10.jpg',
+    lead: 'リーシャのビューティクラスがついにメルシャ市民に公開されます。ファッションとビューティの真髄を詰め込んだ本セミナーは、すべての方の自信を高めてくれることでしょう。',
+    body: `<p class="modal-text">リーシャ自らが企画・進行する本セミナーは、メルシャ宮廷スタイルからインスピレーションを得たコーディネートから、日常で活用できるメイクアップのコツまで、多彩な内容で構成される。</p>
+    <blockquote class="modal-quote">「美しさとは、自分を表現する最も力強い方法です」 — リーシャ</blockquote>
+    <p class="modal-text">セミナーはメルシャ文化会館大ホールにて開催され、事前予約はメルシャ・タイムズのホームページから可能だ。</p>`
+  },
+  reporter: {
+    cat: 'Social · 独占',
+    kicker: '独占入手',
+    title: '地球人勇者ケイ、大主教と密会?!',
+    meta: 'メルシャ・タイムズ社会部 · 4月1日',
+    img: 'images/img_11.jpg',
+    lead: '地球人勇者ケイ、大主教アステと熱愛中????!!! ケイの熱愛疑惑が世間の話題を独占している。相手がセイクリッドのネポス教大主教アステだからだ。',
+    body: `<p class="modal-text">二人の密会疑惑は、聖なるセイクリッド国家のイメージはもちろん、大主教の本分を考えれば少なからぬ衝撃を与えている。セイクリッドはネポス教を国教とする宗教国家であり、教団の長である大主教の私生活は国家の体面に直結するという点で、その波及力は相当なものだ。</p>
+    <p class="modal-text">現在、二人は熱愛疑惑を強く否定しており、宗教的な布教活動と最近精神的に疲弊していたケイの事情が偶然重なっただけだと釈明している。</p>
+    <blockquote class="modal-quote">「ケイは最近精神的に辛い時期を過ごしており、ネポス教の教えに慰めを求めただけです。それ以上の意味を付与しないでください」 — ケイ側関係者</blockquote>
+    <p class="modal-text">しかし匿名の教団高位幹部は本紙との接触で「ケイは普段から不純で陰険な言動を躊躇しない破廉恥な人間だ」とし、「今回のスキャンダルはケイの一方的な不正行為が招いた茶番劇である可能性がある」と主張し、さらなる波紋を呼んでいる。</p>
+    <p class="modal-text">アステ大主教側は「大聖堂はすべての人に開かれた祈りの空間です」と線を引いたが、夜間帯に非公開ルートを通じた訪問だったという点で、疑惑は容易には収まりそうにない。</p>`
+  },
+  cardmarket: {
+    cat: 'Market · Business',
+    kicker: '独占スクープ',
+    title: 'エッセプ再建事業スキャンダル — カメスを結びつけた接点とは?!',
+    meta: 'メルシャ・タイムズ経済部 · 4月1日',
+    img: 'images/img_12.jpg',
+    lead: 'エッセプ再建事業が進む現場から衝撃的な情報が本紙に入手された。再建現場を指揮していた人物が他ならぬ反乱軍の首領カメスだったのだ。',
+    body: `<p class="modal-text">本紙に寄せられた写真はまさに衝撃そのものだった。エッセプ再建事業を陣頭指揮していた人物が、他ならぬ国王の急進的な反対派だったカメスだったのだ。王国の再建事業に王国を滅ぼそうとした反乱軍の首領を起用するなど、一般国民の目線からは到底納得しがたい状況だ。</p>
+    <p class="modal-text">総事業費24兆ゴールドという天文学的な費用が投入される第1期再建事業は、もともとイオータ国王が直接陣頭指揮を執るとされていた。しかし現場ではカメスが実質的な指揮を担っていた。匿名の王国高位関係者はインタビューでその背景をこう説明した。</p>
+    <blockquote class="modal-quote">「再建の人手不足が最大の問題でした。反乱軍を融和する方式は、海外からの労働者投入に比べて予算削減効果が相当だったのでしょう」 — 匿名の王国高位関係者</blockquote>
+    <p class="modal-text">複数の王国関係者は、国王がAIベースの思考方式により、常識的に納得しがたい決定をしばしば下すことを暗に示唆してもいる。本紙がカッパ警備隊長に対し、反乱軍起用に伴う保安管理問題について書面で質問を送ったが、回答は得られなかった。一方、再建事業の主体を把握する過程で二次下請法違反の事例があるとの主張まで飛び出し、本事業をめぐる対立はさらに先鋭化するものと見られる。</p>`
+  }
+};
+
+function openModal(key) {
+  const a = ARTICLES[key];
+  if (!a) return;
+  document.getElementById('modal-cat').textContent = a.cat;
+  document.getElementById('modal-kicker').textContent = a.kicker;
+  document.getElementById('modal-title').textContent = a.title;
+  document.getElementById('modal-meta').textContent = a.meta;
+  document.getElementById('modal-lead').textContent = a.lead;
+  document.getElementById('modal-content').innerHTML = a.body;
+  const imgEl = document.getElementById('modal-img');
+  if (a.img) { imgEl.src = a.img; imgEl.style.display = 'block'; }
+  else { imgEl.style.display = 'none'; }
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e, force) {
+  if (force || e?.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(null, true); });
+
+// ── 성형외과 팝업 ──
+let clinicPin = [];
+
+function openClinic() {
+  clinicPin = [];
+  updatePinDisplay();
+  document.getElementById('clinicSubmitBtn').disabled = true;
+  document.getElementById('clinicPopup').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeClinic() {
+  document.getElementById('clinicPopup').classList.remove('open');
+  document.getElementById('clinicThank').classList.remove('show');
+  document.getElementById('clinicAfter').classList.remove('show');
+  clinicPin = [];
+  updatePinDisplay();
+  document.body.style.overflow = '';
+}
+
+function clinicPinInput(num) {
+  if (clinicPin.length < 4) {
+    clinicPin.push(num);
+    updatePinDisplay();
+    if (clinicPin.length === 4) {
+      document.getElementById('clinicSubmitBtn').disabled = false;
+    }
+  }
+}
+
+function clinicPinDelete() {
+  if (clinicPin.length > 0) {
+    clinicPin.pop();
+    updatePinDisplay();
+    document.getElementById('clinicSubmitBtn').disabled = true;
+  }
+}
+
+function updatePinDisplay() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('pinDot' + i);
+    dot.classList.remove('filled', 'active');
+    if (i < clinicPin.length) {
+      dot.textContent = clinicPin[i];
+      dot.classList.add('filled');
+    } else if (i === clinicPin.length) {
+      dot.textContent = '';
+      dot.classList.add('active');
+    } else {
+      dot.textContent = '';
+    }
+  }
+}
+
+function handleClinicApply() {
+  if (clinicPin.length !== 4) return;
+  
+  // 입력한 비밀번호가 0401인지 확인
+  const enteredPin = clinicPin.join('');
+  if (enteredPin === '0401') {
+    document.getElementById('clinicAfter').classList.add('show');
+  } else {
+    document.getElementById('clinicThank').classList.add('show');
+  }
+}
+
+// ── 분양광고 팝업 ──
+let royalPin = [];
+
+function openRoyal() {
+  royalPin = [];
+  updateRoyalPinDisplay();
+  document.getElementById('royalSubmitBtn').disabled = true;
+  document.getElementById('royalPopup').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRoyal() {
+  document.getElementById('royalPopup').classList.remove('open');
+  document.getElementById('royalThank').classList.remove('show');
+  document.getElementById('royalCoupon').classList.remove('show');
+  royalPin = [];
+  updateRoyalPinDisplay();
+  document.body.style.overflow = '';
+}
+
+function royalPinInput(num) {
+  if (royalPin.length < 4) {
+    royalPin.push(num);
+    updateRoyalPinDisplay();
+    if (royalPin.length === 4) {
+      document.getElementById('royalSubmitBtn').disabled = false;
+    }
+  }
+}
+
+function royalPinDelete() {
+  if (royalPin.length > 0) {
+    royalPin.pop();
+    updateRoyalPinDisplay();
+    document.getElementById('royalSubmitBtn').disabled = true;
+  }
+}
+
+function updateRoyalPinDisplay() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById('royalPinDot' + i);
+    dot.classList.remove('filled', 'active');
+    if (i < royalPin.length) {
+      dot.textContent = royalPin[i];
+      dot.classList.add('filled');
+    } else if (i === royalPin.length) {
+      dot.textContent = '';
+      dot.classList.add('active');
+    } else {
+      dot.textContent = '';
+    }
+  }
+}
+
+function handleRoyalApply() {
+  if (royalPin.length !== 4) return;
+  
+  const enteredPin = royalPin.join('');
+  if (enteredPin === '0401') {
+    document.getElementById('royalCoupon').classList.add('show');
+  } else {
+    document.getElementById('royalThank').classList.add('show');
+  }
+}
+
+function copyRoyalCoupon() {
+  navigator.clipboard.writeText('APRILFOOLSDAY').then(() => {
+    const btn = document.querySelector('.royal-coupon-close');
+    const originalText = btn.textContent;
+    btn.textContent = 'コピー完了！';
+    setTimeout(() => { btn.textContent = originalText; }, 1500);
+  });
+}
+</script>
+
+<!-- ── 성형외과 팝업 ── -->
+<div id="clinicPopup" class="clinic-overlay" onclick="if(event.target===this)closeClinic()">
+  <div class="clinic-box">
+    <button class="clinic-close" onclick="closeClinic()">✕</button>
+    <div class="clinic-inner">
+      <div class="clinic-brand">Premium Beauty Clinic</div>
+      <div class="clinic-title">私の自信にぴったりの<br><strong>理想のバスト</strong>を手に入れよう</div>
+      <div class="clinic-subtitle">相談予約のためパスワードを入力してください</div>
+      
+      <!-- 비밀번호 입력 섹션 -->
+      <div class="clinic-pin-section">
+        <div class="clinic-pin-display">
+          <div class="clinic-pin-dot" id="pinDot0"></div>
+          <div class="clinic-pin-dot" id="pinDot1"></div>
+          <div class="clinic-pin-dot" id="pinDot2"></div>
+          <div class="clinic-pin-dot" id="pinDot3"></div>
+        </div>
+        <div class="clinic-keypad">
+          <button class="clinic-key" onclick="clinicPinInput(1)">1</button>
+          <button class="clinic-key" onclick="clinicPinInput(2)">2</button>
+          <button class="clinic-key" onclick="clinicPinInput(3)">3</button>
+          <button class="clinic-key" onclick="clinicPinInput(4)">4</button>
+          <button class="clinic-key" onclick="clinicPinInput(5)">5</button>
+          <button class="clinic-key" onclick="clinicPinInput(6)">6</button>
+          <button class="clinic-key" onclick="clinicPinInput(7)">7</button>
+          <button class="clinic-key" onclick="clinicPinInput(8)">8</button>
+          <button class="clinic-key" onclick="clinicPinInput(9)">9</button>
+          <button class="clinic-key empty"></button>
+          <button class="clinic-key" onclick="clinicPinInput(0)">0</button>
+          <button class="clinic-key delete" onclick="clinicPinDelete()">⌫</button>
+        </div>
+      </div>
+      
+      <button class="clinic-cta" id="clinicSubmitBtn" onclick="handleClinicApply()" disabled>相談を申し込む</button>
+    </div>
+    <div class="clinic-char">
+      <img src="images/clinic_main.png" alt="ビエラ" onerror="this.style.display='none'">
+    </div>
+    <!-- 감사합니다 -->
+    <div class="clinic-thank" id="clinicThank">
+      <div class="clinic-thank-box">
+        <div class="clinic-thank-icon">✓</div>
+        <p>お申し込み<br>ありがとうございます</p>
+        <button onclick="closeClinic()">閉じる</button>
+      </div>
+    </div>
+    <!-- 0401 서비스 컷 -->
+    <div class="clinic-after" id="clinicAfter">
+      <button class="clinic-close" onclick="closeClinic()">✕</button>
+      <img src="images/clinic_after.jpg" alt="After" onerror="this.style.display='none'">
+    </div>
+  </div>
+</div>
+
+<!-- ── 분양광고 팝업 ── -->
+<div id="royalPopup" class="royal-overlay" onclick="if(event.target===this)closeRoyal()">
+  <div class="royal-box">
+    <button class="royal-close" onclick="closeRoyal()">✕</button>
+    <div class="royal-inner">
+      <div class="royal-brand">Royal Residence</div>
+      <div class="royal-title"><strong>プレミアム立地</strong>の完成<br>モデルハウス見学予約</div>
+      <div class="royal-subtitle">予約確認のため認証番号を入力してください</div>
+      
+      <!-- 비밀번호 입력 섹션 -->
+      <div class="royal-pin-section">
+        <div class="royal-pin-display">
+          <div class="royal-pin-dot" id="royalPinDot0"></div>
+          <div class="royal-pin-dot" id="royalPinDot1"></div>
+          <div class="royal-pin-dot" id="royalPinDot2"></div>
+          <div class="royal-pin-dot" id="royalPinDot3"></div>
+        </div>
+        <div class="royal-keypad">
+          <button class="royal-key" onclick="royalPinInput(1)">1</button>
+          <button class="royal-key" onclick="royalPinInput(2)">2</button>
+          <button class="royal-key" onclick="royalPinInput(3)">3</button>
+          <button class="royal-key" onclick="royalPinInput(4)">4</button>
+          <button class="royal-key" onclick="royalPinInput(5)">5</button>
+          <button class="royal-key" onclick="royalPinInput(6)">6</button>
+          <button class="royal-key" onclick="royalPinInput(7)">7</button>
+          <button class="royal-key" onclick="royalPinInput(8)">8</button>
+          <button class="royal-key" onclick="royalPinInput(9)">9</button>
+          <button class="royal-key empty"></button>
+          <button class="royal-key" onclick="royalPinInput(0)">0</button>
+          <button class="royal-key delete" onclick="royalPinDelete()">⌫</button>
+        </div>
+      </div>
+      
+      <button class="royal-cta" id="royalSubmitBtn" onclick="handleRoyalApply()" disabled>見学予約を申し込む</button>
+    </div>
+    <!-- 감사합니다 -->
+    <div class="royal-thank" id="royalThank">
+      <div class="royal-thank-box">
+        <div class="royal-thank-icon">✓</div>
+        <p>ご予約の<br>お申し込みが完了しました</p>
+        <button onclick="closeRoyal()">閉じる</button>
+      </div>
+    </div>
+    <!-- 쿠폰 코드 -->
+    <div class="royal-coupon" id="royalCoupon">
+      <button class="royal-close" onclick="closeRoyal()">✕</button>
+      <div class="royal-coupon-box">
+        <div class="royal-coupon-icon">🎁</div>
+        <div class="royal-coupon-title">特別割引クーポン</div>
+        <div class="royal-coupon-sub">モデルハウスご来場時にご提示ください</div>
+        <div class="royal-coupon-code">
+          <span>APRILFOOLSDAY</span>
+        </div>
+        <div class="royal-coupon-hint">上記コードをご来場時にご提示いただくと特別特典が受けられます</div>
+        <button class="royal-coupon-close" onclick="copyRoyalCoupon()">クーポンをコピー</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
