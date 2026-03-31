@@ -156,7 +156,7 @@ body {
 .read-more { color: var(--accent); font-weight: 500; text-decoration: none; }
 
 /* ── 광고 사이드 ── */
-.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; }
+.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; }
 .ad-img-wrap { flex: 1; overflow: hidden; position: relative; min-height: 260px; }
 .ad-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ad-content { padding: 14px 16px 16px; flex-shrink: 0; }
@@ -201,7 +201,7 @@ body {
 /* ── 피처 배너 ── */
 .feature-band {
   background: #ede8de; border-bottom: 1px solid var(--rule);
-  display: grid; grid-template-columns: minmax(420px, 420px) 1fr;
+  display: grid; grid-template-columns: 420px 1fr;
   overflow: hidden; cursor: pointer; transition: background 0.15s;
   align-items: stretch;
 }
@@ -928,12 +928,12 @@ body {
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
     <div class="ticker-item"><span class="ticker-label">MIR</span> Mirsha Exchange <span class="tick-dn">▼ 3,215.75 −16.81%</span></div>
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
   </div>
 </div>
 
@@ -1111,7 +1111,7 @@ const ARTICLES = {
     meta: 'メルシャ・タイムズ経済部 · 4月1日',
     img: 'images/img_08.jpg',
     lead: 'イエクスプロー国家非常事態のニュースが伝わるや否や、メルシャ取引所は直撃を受け3,215.75で取引を終えた。1日の取引としては過去最大の下落幅を記録した。',
-    body: `<p class="modal-text">イエクスプローはホワイトファルコン王国と和平関係にある隣国であり、両国間の貿易比重が高いことから、今回の非常事態はメルシャ経済に直接的な波及効果をもたらしている。MIR指数は場中一時、前日比18%を超える急落を見せ、主要貿易関連銘柄を中心にパニック売りが集中した。</p>
+    body: `<p class="modal-text">イエクスプローはホワイトファルコン王国と和平関係にある隣国であり、両国間の貿易比重が高いことから、今回の非常事態はメルシャ経済に直接的な波及効果をもたらしている。MIR指数は場中一時、前日比16%を超える急落を見せ、主要貿易関連銘柄を中心にパニック売りが集中した。</p>
     <blockquote class="modal-quote">「イエクスプロー事態が長期化した場合、両国間の貿易に深刻な支障が生じることは避けられません」 — メルシャ投資研究所チーフアナリスト</blockquote>
     <p class="modal-text">王室経済対策委員会は緊急会議を開き、市場安定化措置を検討中であると発表した。市場の専門家たちは、イエクスプローにおけるイレギュラー鎮圧の進捗次第では変動性がさらに拡大する可能性があると警告している。</p>`
   },
@@ -1410,7 +1410,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 0401 서비스 컷 -->
-    <div class="clinic-after" id="clinicAfter">
+    <div class="clinic-after" id="clinicAfter" onclick="if(event.target===this)closeClinic()">
       <button class="clinic-close" onclick="closeClinic()">✕</button>
       <img src="images/clinic_after.jpg" alt="After" onerror="this.style.display='none'">
     </div>
@@ -1461,7 +1461,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 쿠폰 코드 -->
-    <div class="royal-coupon" id="royalCoupon">
+    <div class="royal-coupon" id="royalCoupon" onclick="if(event.target===this)closeRoyal()">
       <button class="royal-close" onclick="closeRoyal()">✕</button>
       <div class="royal-coupon-box">
         <div class="royal-coupon-icon">🎁</div>

@@ -156,7 +156,7 @@ body {
 .read-more { color: var(--accent); font-weight: 500; text-decoration: none; }
 
 /* ── 광고 사이드 ── */
-.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; }
+.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; }
 .ad-img-wrap { flex: 1; overflow: hidden; position: relative; min-height: 260px; }
 .ad-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ad-content { padding: 14px 16px 16px; flex-shrink: 0; }
@@ -928,12 +928,12 @@ body {
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
     <div class="ticker-item"><span class="ticker-label">MIR</span> Mirsha Exchange <span class="tick-dn">▼ 3,215.75 −16.81%</span></div>
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
   </div>
 </div>
 
@@ -1041,7 +1041,7 @@ body {
     <div class="feature-body">
       <div class="feature-eyebrow">브린 추천 · Lifestyle</div>
       <h3 class="feature-title">빛의 사막, 엣셉흐 — 공식 홍보대사 브린의 엣셉흐 에센스</h3>
-      <p class="feature-desc">사막 위의 오아시스 엣셉흐는 수많은 관광객이 방문하는 관광 명소이다. 하지만 아름다운 사막 아래에는 위험이 도사리고 있다는 사실을 대다수의 사람들은 잘 모르고 있다. 본 기사에서는 10년차 엣셉흐 전문 투어가이드의 노하우를 총 망라하여…</p>
+      <p class="feature-desc">사막 위의 오아시스 엣셉흐는 수많은 관광객이 방문하는 관광 명소이다. 하지만 아름다운 사막 아래에는 위험이 도사리고 있다는 사실을 대다수의 사람들은 잘 모르고 있다. 본 기사에서는 10년차 엣셉흐 전문 투어가이드의 노하우를 총망라하여…</p>
       <a class="feature-more" href="#">더보기 →</a>
     </div>
   </section>
@@ -1111,9 +1111,9 @@ const ARTICLES = {
     meta: '메르샤 타임즈 경제부 · 4월 1일',
     img: 'images/img_08.jpg',
     lead: '이엑스플로 국가 비상사태 소식이 전해지자마자 메르샤 거래소가 직격탄을 맞아 3,215.75로 마감, 단일 세션 기준 역대 최대 낙폭을 기록했다.',
-    body: `<p class="modal-text">이엑스플로는 화이트팔콘 왕국과 화친 관계에 있는 인접국으로, 양국 간 교역 비중이 높아 이번 비상사태가 메르샤 경제에 직접적인 파급 효과를 일으키고 있다. MIR 지수는 장중 한때 전일 대비 18%를 웃도는 급락세를 보였으며, 주요 교역 관련 종목을 중심으로 패닉셀이 집중됐다.</p>
+    body: `<p class="modal-text">이엑스플로는 화이트팔콘 왕국과 화친 관계에 있는 인접국으로, 양국 간 교역 비중이 높아 이번 비상사태가 메르샤 경제에 직접적인 파급 효과를 일으키고 있다. MIR 지수는 장중 한때 전일 대비 16%를 웃도는 급락세를 보였으며, 주요 교역 관련 종목을 중심으로 패닉셀이 집중됐다.</p>
     <blockquote class="modal-quote">"이엑스플로 사태가 장기화될 경우 양국 교역에 심각한 차질이 불가피합니다." — 메르샤 투자연구소 수석 애널리스트</blockquote>
-    <p class="modal-text">왕실 경제대책위원회는 긴급 회의를 열고 시장 안정화 조치를 검토 중이라고 밝혔다. 시장 전문가들은 이엑스플로 이레귤러 사태의 진압 추이에 따라 변동성이 더욱 확대될 수 있다고 경고하고 있다.</p>`
+    <p class="modal-text">왕실 경제대책위원회는 긴급회의를 열고 시장 안정화 조치를 검토 중이라고 밝혔다. 시장 전문가들은 이엑스플로 이레귤러 사태의 진압 추이에 따라 변동성이 더욱 확대될 수 있다고 경고하고 있다.</p>`
   },
   social: {
     cat: 'Social',
@@ -1155,7 +1155,7 @@ const ARTICLES = {
     meta: '메르샤 타임즈 라이프스타일부 · 4월 1일',
     img: 'images/img_09.jpg',
     lead: '사막 위의 오아시스 엣셉흐는 수많은 관광객이 방문하는 관광 명소이다. 하지만 아름다운 사막 아래에는 위험이 도사리고 있다.',
-    body: `<p class="modal-text">10년차 엣셉흐 전문 투어가이드의 노하우를 총 망라한 이번 특집 기사에서는, 엣셉흐를 안전하고 즐겁게 여행하는 방법을 상세히 소개한다. 공식 홍보대사 브린은 엣셉흐의 숨겨진 매력을 직접 안내해주기도 했다.</p>
+    body: `<p class="modal-text">10년차 엣셉흐 전문 투어가이드의 노하우를 총망라한 이번 특집 기사에서는, 엣셉흐를 안전하고 즐겁게 여행하는 방법을 상세히 소개한다. 공식 홍보대사 브린은 엣셉흐의 숨겨진 매력을 직접 안내해주기도 했다.</p>
     <blockquote class="modal-quote">"엣셉흐는 단순한 사막이 아니에요. 빛과 모래가 만들어내는 마법 같은 공간이죠." — 브린</blockquote>
     <p class="modal-text">무엇보다 중요한 것은 현지 가이드 동반 여행이다. 혼자 사막 깊숙이 들어가는 것은 매우 위험하며, 공식 투어 루트를 벗어나지 않도록 주의해야 한다.</p>`
   },
@@ -1191,7 +1191,7 @@ const ARTICLES = {
     img: 'images/img_12.jpg',
     lead: '엣셉흐 재건사업이 진행되는 현장에서 충격적인 제보가 본지에 입수됐다. 재건사업 현장을 지휘하고 있던 인물이 다름 아닌 반군의 우두머리 카메스였던 것이다.',
     body: `<p class="modal-text">본지에 제보된 사진은 그야말로 충격 그 자체였다. 엣셉흐 재건사업을 진두지휘하고 있던 인물이 다름 아닌 국왕의 극렬한 반대파였던 카메스였던 것. 왕국의 재건사업에 왕국을 몰락시키려 했던 반군의 수장을 기용한다는 것은 일반 국민의 시선에서는 도저히 납득하기 어려운 상황이다.</p>
-    <p class="modal-text">총 사업비 24조 골드라는 천문학적 비용이 투입되는 1차 재건사업은 본래 요타 국왕이 직접 진두지휘할 것으로 알려져 있었다. 그러나 현장에서는 카메스가 실질적인 지휘를 맡고 있었다. 익명의 왕국 고위 관계자는 인터뷰를 통해 그 배경을 이렇게 설명했다.</p>
+    <p class="modal-text">총사업비 24조 골드라는 천문학적 비용이 투입되는 1차 재건사업은 본래 요타 국왕이 직접 진두지휘할 것으로 알려져 있었다. 그러나 현장에서는 카메스가 실질적인 지휘를 맡고 있었다. 익명의 왕국 고위 관계자는 인터뷰를 통해 그 배경을 이렇게 설명했다.</p>
     <blockquote class="modal-quote">"재건 인력 부족이 가장 큰 문제였다. 반군을 융화하는 방식이 해외 노동자 투입 대비 예산 절감 효과가 상당했을 것이다." — 익명의 왕국 고위 관계자</blockquote>
     <p class="modal-text">복수의 왕국 관계자들은 국왕이 AI 기반의 사고방식으로 인해 상식적으로 납득하기 어려운 결정을 종종 내린다는 점을 넌지시 시사하기도 했다. 본지가 카파 경비대장에게 반군 기용에 따른 보안 관리 문제에 대해 서면 질의를 보냈으나 끝내 답변을 받지 못했다. 한편 재건사업 주체를 파악하는 과정에서 2차 하도급법 위반 사례가 있다는 주장까지 터져나오면서 이번 사업을 둘러싼 갈등은 더욱 첨예해질 것으로 전망된다.</p>`
   }
@@ -1410,7 +1410,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 0401 서비스 컷 -->
-    <div class="clinic-after" id="clinicAfter">
+    <div class="clinic-after" id="clinicAfter" onclick="if(event.target===this)closeClinic()">
       <button class="clinic-close" onclick="closeClinic()">✕</button>
       <img src="images/clinic_after.jpg" alt="After" onerror="this.style.display='none'">
     </div>
@@ -1461,7 +1461,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 쿠폰 코드 -->
-    <div class="royal-coupon" id="royalCoupon">
+    <div class="royal-coupon" id="royalCoupon" onclick="if(event.target===this)closeRoyal()">
       <button class="royal-close" onclick="closeRoyal()">✕</button>
       <div class="royal-coupon-box">
         <div class="royal-coupon-icon">🎁</div>

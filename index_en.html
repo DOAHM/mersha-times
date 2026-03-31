@@ -156,7 +156,7 @@ body {
 .read-more { color: var(--accent); font-weight: 500; text-decoration: none; }
 
 /* ── 광고 사이드 ── */
-.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; }
+.hero-ad { background: var(--ad-bg); display: flex; flex-direction: column; position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; }
 .ad-img-wrap { flex: 1; overflow: hidden; position: relative; min-height: 260px; }
 .ad-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ad-content { padding: 14px 16px 16px; flex-shrink: 0; }
@@ -928,12 +928,12 @@ body {
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
     <div class="ticker-item"><span class="ticker-label">MIR</span> Mirsha Exchange <span class="tick-dn">▼ 3,215.75 −16.81%</span></div>
     <div class="ticker-item"><span class="ticker-label">EXP</span> Exflo Index <span class="tick-dn">▼ 892.40 −23.4%</span></div>
     <div class="ticker-item"><span class="ticker-label">DSR</span> Desert Oil <span class="tick-up">▲ 441.20 +2.1%</span></div>
     <div class="ticker-item"><span class="ticker-label">BTF</span> Battle Fund <span class="tick-dn">▼ 128.55 −8.7%</span></div>
-    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ −1.5p</span></div>
+    <div class="ticker-item"><span class="ticker-label">ETH</span> Ether Index <span class="tick-dn">▼ 1,024.30 −1.5%</span></div>
   </div>
 </div>
 
@@ -1111,7 +1111,7 @@ const ARTICLES = {
     meta: 'Mirsha Times Business Desk · April 1',
     img: 'images/img_08.jpg',
     lead: 'The Mirsha Exchange closed at 3,215.75 on Monday — its steepest single-session decline on record — as the Ful.Mi.NATION emergency sent shockwaves through regional markets.',
-    body: `<p class="modal-text">As a key trading partner of the Kingdom of the White Falcon, Ful.Mi.NATION's crisis immediately rippled through the Mirsha economy. The MIR index cratered more than 18% in intraday trading, with trade-linked stocks bearing the brunt of heavy sell-offs.</p>
+    body: `<p class="modal-text">As a key trading partner of the Kingdom of the White Falcon, Ful.Mi.NATION's crisis immediately rippled through the Mirsha economy. The MIR index cratered more than 16% in intraday trading, with trade-linked stocks bearing the brunt of heavy sell-offs.</p>
     <blockquote class="modal-quote">"A prolonged crisis in Ful.Mi.NATION would deal a severe blow to bilateral trade. The exposure is significant." — Chief Analyst, Mirsha Investment Research Institute</blockquote>
     <p class="modal-text">The Royal Economic Countermeasures Committee held an emergency session and said it is evaluating market stabilization options. Analysts warn that further volatility is all but certain, depending on how quickly Ful.Mi.NATION can contain the Irregular threat.</p>`
   },
@@ -1410,7 +1410,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 0401 서비스 컷 -->
-    <div class="clinic-after" id="clinicAfter">
+    <div class="clinic-after" id="clinicAfter" onclick="if(event.target===this)closeClinic()">
       <button class="clinic-close" onclick="closeClinic()">✕</button>
       <img src="images/clinic_after.jpg" alt="After" onerror="this.style.display='none'">
     </div>
@@ -1461,7 +1461,7 @@ function copyRoyalCoupon() {
       </div>
     </div>
     <!-- 쿠폰 코드 -->
-    <div class="royal-coupon" id="royalCoupon">
+    <div class="royal-coupon" id="royalCoupon" onclick="if(event.target===this)closeRoyal()">
       <button class="royal-close" onclick="closeRoyal()">✕</button>
       <div class="royal-coupon-box">
         <div class="royal-coupon-icon">🎁</div>
