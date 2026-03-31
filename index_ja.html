@@ -63,13 +63,13 @@ body {
   overflow-x: auto; scrollbar-width: none;
 }
 .site-nav::-webkit-scrollbar { display: none; }
-.site-nav a {
+.site-nav span {
   color: #aaa; text-decoration: none; font-size: 11px; letter-spacing: 0.08em;
   text-transform: uppercase; padding: 8px 14px;
   border-right: 0.5px solid #2a2a2a; white-space: nowrap; transition: color 0.2s;
 }
-.site-nav a:first-child { border-left: 0.5px solid #2a2a2a; }
-.site-nav a:hover { color: #f0ead8; }
+.site-nav span:first-child { border-left: 0.5px solid #2a2a2a; }
+.site-nav span:hover { color: #f0ead8; }
 
 /* ── 언어 선택 ── */
 .header-right { display: flex; align-items: center; gap: 0; }
@@ -326,7 +326,7 @@ body {
   .header-top .date { display: none; }
   .masthead { padding: 12px 14px 8px; }
   .site-nav { padding: 0 14px; }
-  .site-nav a { padding: 7px 10px; font-size: 10px; }
+  .site-nav span { padding: 7px 10px; font-size: 10px; }
 
   .hero-zone { display: block; }
   .hero-main { padding: 0; border-right: none; }
@@ -917,8 +917,8 @@ body {
     <p class="tagline">メルシャ帝国随一の信頼、今日も真実だけをお届けします</p>
   </div>
   <nav class="site-nav">
-    <a href="#">Social</a><a href="#">Business</a><a href="#">Market</a>
-    <a href="#">ART</a><a href="#">Lifestyle</a><a href="#">Opinion</a>
+    <span>Social</span><span>Business</span><span>Market</span>
+    <span>ART</span><span>Lifestyle</span><span>Opinion</span>
   </nav>
 </header>
 
